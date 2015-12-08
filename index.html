@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head> 
+	<title>PiroByte</title>
+	<style type="text/css">
+		.bg {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			background: no-repeat url("http://media.cmgdigital.com/shared/img/photos/2012/12/01/24/23/DSC_1665.JPG");
+    		background-size: 100%;
+    		opacity: 0.8;
+		}
+		h1{
+			font-size:3em;
+		}
+		#languageSelector{
+			text-align: center;
+		}
+		#curVideo{
+			float: left;
+		}
+		#userVid{
+      float: right;
+			display: block;
+			height: 315px;
+			margin-left: 60px;
+		}
+
+		
+
+
+	</style>
+	<script type="text/javascript">
+
+	function showVideo(lang){
+		var video=document.getElementsByTagName("iframe")[0];
+		console.log(lang);
+
+		if(lang == "eng"){
+			video.src="https://www.youtube.com/embed/O9TunCtR3dQ";
+		}
+        if(lang == "spa"){
+        	video.src="https://www.youtube.com/embed/kvEvATBiQ5U";
+        }
+        if(lang == "fre"){
+        	video.src="https://www.youtube.com/embed/wnBQsFaRg1w";
+        }
+        if(lang == "ger"){
+        	video.src="https://www.youtube.com/embed/Wx-KHRbufJ4";
+        }
+        if(lang == "jam"){
+        	video.src="https://www.youtube.com/embed/UJ8anIEuP5A";
+        }
+     
+	}
+
+	</script>
+</head>
+
+<body class="bg">
+<div id="bg"></div>
+<div id="main"><h1><center><b><font color="White">Welcome to International Karaoke!</font></b></center></h1></div>
+<center><h4><font color="MediumPurple">Please select a language to get started</font></h4></center>
+
+<div id="languageSelector">
+<select onchange="showVideo(this.value)">
+	<option value="dummy">Select Language</option>
+	<option value="eng">English</option>
+	<option value="spa">Spanish</option>
+	<option value="fre">French</option>
+	<option value="ger">German</option>
+	<option value="jam">Jamaican</option>
+</select>
+</div>
+
+<div id="curVideo">
+	<iframe width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
+</div>
+
+<video id="userVid" autoplay></video>
+
+<div id="webcamcontrols">
+    <button class="recordbutton" onclick="startRecording();">RECORD</button>
+</div>
+ 
+<script>var vgaConstraints = {
+  video: {
+    mandatory: {
+      maxWidth: 560,
+      maxHeight: 315
+    }
+  }
+};
+  var mediaStream=null;
+
+  var errorCallback = function(e) {
+    console.log('Reeeejected!', e);
+  };
+ 
+  navigator.getUserMedia  = navigator.getUserMedia ||
+                          navigator.webkitGetUserMedia ||
+                          navigator.mozGetUserMedia ||
+                          navigator.msGetUserMedia;
+ 
+  // Not showing vendor prefixes.
+  navigator.getUserMedia({video: true, audio: true}, function(localMediaStream) {
+    console.log(localMediaStream);
+    var video = document.querySelector('video');
+   
+    video.src = window.URL.createObjectURL(localMediaStream);
+    mediaStream = localMediaStream;
+ 
+    // Note: onloadedmetadata doesn't fire in Chrome when using it with getUserMedia.
+    // See crbug.com/110938.
+    video.onloadedmetadata = function(e) {
+      // Ready to go. Do some stuff.
+        console.log
+    };
+  }, errorCallback);
+
+/*---*/
+
+function startRecording() {
+    streamRecorder = mediaStream.record();
+    setTimeout(stopRecording, 10000);
+}
+function stopRecording() {
+    streamRecorder.getRecordedData(postVideoToServer);
+}
+function postVideoToServer(videoblob) {
+
+    var data = {};
+    data.video = videoblob;
+    console.log(videoblob);
+}
+function onUploadSuccess() {
+    alert ('video uploaded');
+}
+
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
